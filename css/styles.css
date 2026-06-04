@@ -10,6 +10,12 @@
   --suggested-bg: #eff6ff;
   --radius: 12px;
   --touch-min: 44px;
+  --chrome-header: 4.5rem;
+  --chrome-tabs: 4.25rem;
+  --chrome-progress: 3.5rem;
+  --chrome-scroll-padding: calc(
+    var(--chrome-header) + var(--chrome-tabs) + var(--chrome-progress)
+  );
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -17,6 +23,10 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: var(--chrome-scroll-padding);
 }
 
 body {
@@ -79,6 +89,10 @@ body {
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: var(--chrome-header);
+  z-index: 9;
 }
 
 .series-tab {
@@ -107,8 +121,8 @@ body {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   position: sticky;
-  top: 4.5rem;
-  z-index: 9;
+  top: calc(var(--chrome-header) + var(--chrome-tabs));
+  z-index: 8;
 }
 
 .progress-label {
@@ -133,6 +147,7 @@ body {
   padding: 1rem;
   border: 2px solid transparent;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  scroll-margin-top: var(--chrome-scroll-padding);
 }
 
 .exercise-card.is-active {
