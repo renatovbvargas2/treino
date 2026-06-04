@@ -1,5 +1,11 @@
 (function (global) {
-  const { emptySets, sessionHasData, ensureCurrentSession } = global.TreinoStorage;
+  const {
+    emptySets,
+    sessionHasData,
+    sessionIsComplete,
+    mergeCompleteSetsIntoSuggestions,
+    ensureCurrentSession,
+  } = global.TreinoStorage;
 
   function cloneSets(sets) {
     const cloned = {};
@@ -23,12 +29,20 @@
   function startWorkout(state, exerciseIds) {
     const session = state.currentSession;
 
-    if (session && sessionHasData(session)) {
-      state.lastCompletedSession = {
-        ...session,
-        completedAt: new Date().toISOString(),
-      };
-      state.suggestions = cloneSets(session.sets);
+    if (session) {
+      if (sessionIsComplete(session, exerciseIds)) {
+        state.lastCompletedSession = {
+          ...session,
+          completedAt: new Date().toISOString(),
+        };
+        state.suggestions = cloneSets(session.sets);
+      } else if (sessionHasData(session)) {
+        state.suggestions = mergeCompleteSetsIntoSuggestions(
+          state.suggestions,
+          session.sets,
+          exerciseIds
+        );
+      }
     }
 
     const series = state.activeSeries;

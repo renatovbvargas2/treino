@@ -31,6 +31,9 @@
   });
 
   document.getElementById('btn-start-workout').addEventListener('click', () => {
+    const ok = window.confirm('Deseja realmente finalizar o treino?');
+    if (!ok) return;
+
     state = window.TreinoUI.getState();
     const ids = getExercises(state.activeSeries).map((e) => e.id);
     startWorkout(state, ids);
