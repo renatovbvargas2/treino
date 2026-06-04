@@ -58,20 +58,37 @@
           : parseInt(value, 10);
     sets[setIndex][field] = parsed == null || Number.isNaN(parsed) ? null : parsed;
     persistDebounced();
-    const card = document.querySelector(`[data-exercise-id="${exerciseId}"]`);
-    if (card) card.classList.remove('is-suggested');
   }
 
-  function renderSetRow(exerciseId, setIndex, setData, isSuggested) {
+  function getSuggestionSet(exerciseId, setIndex) {
+    const sug = state.suggestions?.[exerciseId];
+    return sug?.[setIndex] ?? null;
+  }
+
+  function formatFieldLabel(label, refValue) {
+    if (refValue == null) return label;
+    return `${label} <span class="label-ref">${refValue}</span>`;
+  }
+
+  function hasSetReference(exerciseId, setIndex) {
+    const s = getSuggestionSet(exerciseId, setIndex);
+    if (!s) return false;
+    return s.weight != null || s.reps != null;
+  }
+
+  function renderSetRow(exerciseId, setIndex, setData, hasReference) {
+    const sug = getSuggestionSet(exerciseId, setIndex);
     const weightVal = setData.weight != null ? setData.weight : '';
     const repsVal = setData.reps != null ? setData.reps : '';
-    const suggestedClass = isSuggested ? ' is-suggested' : '';
+    const suggestedClass = hasReference ? ' is-suggested' : '';
+    const weightLabel = formatFieldLabel('Peso (kg)', sug?.weight);
+    const repsLabel = formatFieldLabel('Reps', sug?.reps);
 
     return `
       <div class="set-row${suggestedClass}" data-set-index="${setIndex}">
         <span class="set-label">Série ${setIndex + 1}</span>
         <label class="field">
-          <span>Peso (kg)</span>
+          <span>${weightLabel}</span>
           <input
             type="number"
             inputmode="decimal"
@@ -86,7 +103,7 @@
           >
         </label>
         <label class="field">
-          <span>Reps</span>
+          <span>${repsLabel}</span>
           <input
             type="number"
             inputmode="numeric"
@@ -104,17 +121,6 @@
     `;
   }
 
-  function isSetSuggested(exerciseId, setIndex, setData) {
-    const sug = state.suggestions[exerciseId];
-    if (!sug || !sug[setIndex]) return false;
-    const s = sug[setIndex];
-    return (
-      setData.weight === s.weight &&
-      setData.reps === s.reps &&
-      (setData.weight != null || setData.reps != null)
-    );
-  }
-
   function renderExerciseList() {
     const list = document.getElementById('exercise-list');
     const series = state.activeSeries;
@@ -127,7 +133,7 @@
         const isActive = index === activeIndex;
         const setsHtml = sets
           .map((setData, si) =>
-            renderSetRow(ex.id, si, setData, isSetSuggested(ex.id, si, setData))
+            renderSetRow(ex.id, si, setData, hasSetReference(ex.id, si))
           )
           .join('');
 

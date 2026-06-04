@@ -12,17 +12,10 @@
     return cloned;
   }
 
-  function buildSetsFromSuggestions(suggestions, exerciseIds) {
+  function buildEmptySetsForExercises(exerciseIds) {
     const sets = {};
     for (const id of exerciseIds) {
-      if (suggestions[id]) {
-        sets[id] = suggestions[id].map((s) => ({
-          weight: s.weight != null ? s.weight : null,
-          reps: s.reps != null ? s.reps : null,
-        }));
-      } else {
-        sets[id] = emptySets();
-      }
+      sets[id] = emptySets();
     }
     return sets;
   }
@@ -43,7 +36,7 @@
       startedAt: new Date().toISOString(),
       series,
       exerciseIndex: 0,
-      sets: buildSetsFromSuggestions(state.suggestions, exerciseIds),
+      sets: buildEmptySetsForExercises(exerciseIds),
     };
     state.seriesProgress[series].exerciseIndex = 0;
 
