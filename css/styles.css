@@ -196,6 +196,11 @@ body {
   color: var(--muted);
 }
 
+.field .label-ref {
+  font-weight: 600;
+  color: var(--text);
+}
+
 .input-touch {
   min-height: var(--touch-min);
   width: 100%;
