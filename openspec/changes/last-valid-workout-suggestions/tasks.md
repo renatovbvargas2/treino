@@ -6,11 +6,11 @@
 
 ## 2. Confirmação ao iniciar treino
 
-- [x] 2.1 Adicionar `window.confirm` no clique de `#btn-start-workout` em `js/app.js` com mensagem em português sobre reinício da sessão
+- [x] 2.1 Adicionar `window.confirm` no clique de `#btn-start-workout` em `js/app.js` com mensagem genérica de finalizar o treino
 - [x] 2.2 Garantir que cancelar no diálogo não chama `startWorkout`, `saveState` nem `render`
 
 ## 3. Verificação manual
 
 - [x] 3.1 Testar: treino completo → iniciar novo → labels mostram valores arquivados e inputs vazios
-- [x] 3.2 Testar: treino parcial → iniciar novo (confirmar) → labels mantêm último treino completo, não zeros/vazios indevidos
+- [x] 3.2 Testar: treino parcial → iniciar novo (confirmar) → labels mostram séries preenchidas e mantêm referência anterior nos demais slots
 - [x] 3.3 Testar: cancelar confirmação → sessão atual intacta

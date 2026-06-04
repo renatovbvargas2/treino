@@ -31,10 +31,7 @@
   });
 
   document.getElementById('btn-start-workout').addEventListener('click', () => {
-    const ok = window.confirm(
-      'Iniciar um novo treino?\n\nA sessão em andamento será reiniciada. ' +
-        'Referências do último treino completo são mantidas se o treino atual não estiver totalmente preenchido.'
-    );
+    const ok = window.confirm('Deseja realmente finalizar o treino?');
     if (!ok) return;
 
     state = window.TreinoUI.getState();

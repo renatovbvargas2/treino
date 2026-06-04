@@ -2,7 +2,7 @@
 
 ### Requirement: Arquivar sessão anterior ao iniciar
 
-Ao pressionar **Iniciar treino**, o sistema MUST salvar os dados da sessão de treino anterior como base para sugestões na próxima sessão **somente** quando essa sessão estiver **completa** (todos os exercícios da série ativa com as três séries tendo peso e repetições preenchidos). Se a sessão anterior tiver qualquer campo de peso ou repetições vazio para algum exercício da série, o sistema MUST **não** substituir o histórico de sugestões já arquivado e MUST iniciar a nova sessão com campos vazios.
+Ao pressionar **Iniciar treino**, o sistema MUST salvar a sessão anterior como base integral de sugestões (`lastCompletedSession` e `suggestions`) **somente** quando essa sessão estiver **completa** (todos os exercícios da série ativa com as três séries tendo peso e repetições preenchidos). Se a sessão estiver incompleta mas tiver dados, o sistema MUST mesclar nas `suggestions` apenas as séries com peso e repetições preenchidos, MUST preservar referências anteriores nos demais slots e MUST **não** atualizar `lastCompletedSession`. Em todos os casos, a nova sessão MUST iniciar com campos de entrada vazios.
 
 #### Scenario: Iniciar novo treino após sessão preenchida
 
@@ -11,15 +11,17 @@ Ao pressionar **Iniciar treino**, o sistema MUST salvar os dados da sessão de t
 
 #### Scenario: Iniciar novo treino com sessão incompleta
 
-- **WHEN** o usuário pressiona "Iniciar treino" e a sessão atual tem ao menos um campo de peso ou repetições vazio em qualquer exercício da série ativa
+- **WHEN** o usuário pressiona "Iniciar treino" e a sessão atual tem ao menos um campo vazio em qualquer exercício da série ativa
 - **THEN** a nova sessão inicia com campos de entrada vazios
-- **AND** `suggestions` e o treino arquivado para referência permanecem os do último treino completo anterior (se existirem)
+- **AND** `lastCompletedSession` permanece o do último treino completo anterior (se existir)
+- **AND** `suggestions` incorporam peso e repetições das séries totalmente preenchidas na sessão que está sendo encerrada
+- **AND** slots não preenchidos ou com apenas peso ou apenas repetições mantêm a referência já existente em `suggestions`
 
 ## ADDED Requirements
 
 ### Requirement: Confirmar antes de iniciar novo treino
 
-Antes de executar **Iniciar treino**, o sistema MUST solicitar confirmação explícita do usuário com uma mensagem que indique que um novo treino será iniciado e que a sessão em andamento será reiniciada.
+Antes de executar **Iniciar treino**, o sistema MUST solicitar confirmação explícita do usuário perguntando se deseja realmente finalizar o treino.
 
 #### Scenario: Usuário confirma início
 
