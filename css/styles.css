@@ -58,6 +58,12 @@ body {
   font-weight: 700;
 }
 
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .btn {
   min-height: var(--touch-min);
   padding: 0.5rem 1rem;
@@ -82,6 +88,20 @@ body {
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
+}
+
+.btn:disabled,
+.series-tab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+body.session-terminated .input-touch:disabled,
+body.session-terminated .input-touch[readonly] {
+  opacity: 0.85;
+  cursor: not-allowed;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .series-tabs {

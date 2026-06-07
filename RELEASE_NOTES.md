@@ -1,5 +1,25 @@
 # Release Notes
 
+## v1.1.0 — 2026-06-07
+
+### Adicionado
+
+- Botão **Terminar treino** com confirmação: congela a sessão mantendo valores visíveis
+- Fluxo em duas etapas: **Terminar treino** → **Iniciar treino** (Iniciar só após terminar)
+- Fase de sessão persistida (`active` / `terminated`) no `localStorage`
+- Bloqueio de orientação em retrato (meta tag, `manifest.json` e tentativa de `screen.orientation.lock`)
+- Abas renomeadas para **Sábado** e **Domingo** (identificadores internos A/B inalterados)
+
+### Alterado
+
+- **Iniciar treino** não pede mais confirmação de finalização (confirmação movida para Terminar)
+- Rótulo de progresso exibe Sábado/Domingo em vez de Série A/B
+- Controles desabilitados na fase encerrada (inputs, abas, navegação)
+
+### Issue
+
+Correções da [#5](https://github.com/renatovbvargas2/treino/issues/5): botão girar no celular, fluxo de término de treino e rótulos por dia da semana.
+
 ## v1.0.0 — 2026-06-04
 
 ### Adicionado

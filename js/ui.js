@@ -10,8 +10,44 @@
   let state = null;
   let persistDebounced = null;
 
+  const SERIES_LABELS = { A: 'Sábado', B: 'Domingo' };
+
   function formatProgressLabel(series, index, total) {
-    return `Exercício ${index + 1} de ${total} (Série ${series})`;
+    const label = SERIES_LABELS[series] || series;
+    return `Exercício ${index + 1} de ${total} (${label})`;
+  }
+
+  function applySessionPhase() {
+    const phase = state.sessionPhase || 'active';
+    const isTerminated = phase === 'terminated';
+
+    document.body.classList.toggle('session-terminated', isTerminated);
+    document.body.classList.toggle('session-active', !isTerminated);
+
+    const btnStart = document.getElementById('btn-start-workout');
+    const btnTerminate = document.getElementById('btn-terminate-workout');
+    const btnPrev = document.getElementById('btn-prev-exercise');
+    const btnNext = document.getElementById('btn-next-exercise');
+
+    if (btnStart) btnStart.disabled = !isTerminated;
+    if (btnTerminate) btnTerminate.disabled = isTerminated;
+    if (btnPrev) btnPrev.disabled = isTerminated;
+    if (btnNext) btnNext.disabled = isTerminated;
+
+    document.querySelectorAll('.series-tab').forEach((tab) => {
+      tab.disabled = isTerminated;
+    });
+
+    document.querySelectorAll('#exercise-list input[data-exercise-id]').forEach((input) => {
+      input.disabled = isTerminated;
+      input.readOnly = isTerminated;
+    });
+  }
+
+  function setSessionPhase(phase) {
+    state.sessionPhase = phase;
+    persist();
+    applySessionPhase();
   }
 
   function scrollToExercise(index) {
@@ -194,6 +230,7 @@
 
   function render() {
     renderExerciseList();
+    applySessionPhase();
   }
 
   function init(appState) {
@@ -220,6 +257,8 @@
     setState,
     switchSeries,
     setExerciseIndex,
+    setSessionPhase,
+    applySessionPhase,
     persist,
     scrollToExercise,
   };
