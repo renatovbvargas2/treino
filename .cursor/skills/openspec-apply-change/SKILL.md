@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires openspec CLI.
 metadata:
   author: openspec
-  version: "1.0"
+  version: "1.1"
   generatedBy: "1.3.1"
 ---
 
@@ -47,7 +47,7 @@ Implement tasks from an OpenSpec change.
    **Handle states:**
    - If `state: "blocked"` (missing artifacts): show message, suggest using openspec-continue-change
    - If `state: "all_done"`: congratulate, suggest archive
-   - Otherwise: proceed to implementation
+   - Otherwise: proceed to steps 4–8
 
 4. **Read context files**
 
@@ -64,7 +64,57 @@ Implement tasks from an OpenSpec change.
    - Remaining tasks overview
    - Dynamic instruction from CLI
 
-6. **Implement tasks (loop until done or blocked)**
+6. **Prepare branch and open PR from `main`** (required before any implementation)
+
+   Skip this step only when apply state is `blocked` or `all_done`.
+
+   **Goal**: Every implementation session works on a feature branch with an open PR targeting `main`.
+
+   a. **Branch name**: use the change name (e.g., `fix-workout-ui-issue-5`).
+
+   b. **Reuse existing PR** (resume / continue sessions):
+   ```bash
+   gh pr list --head "<branch-name>" --base main --json number,url,state
+   ```
+   If an open PR exists, announce branch and PR URL, then go to step 7.
+
+   c. **Sync and branch from `main`**:
+   ```bash
+   git fetch origin main
+   ```
+   - If already on `<branch-name>` and it tracks `origin/<branch-name>`, continue to (d).
+   - Otherwise:
+     - Stash uncommitted work if needed: `git stash push -u -m "openspec-apply: <name>"`
+     - Update main: `git checkout main` then `git pull origin main`
+     - Create branch: `git checkout -b "<branch-name>"`
+     - Restore stash if created: `git stash pop` (resolve conflicts before continuing)
+
+   d. **Initial commit** (when the branch has no commits ahead of `main`):
+   - Commit OpenSpec artifacts under `openspec/changes/<name>/` if present and uncommitted.
+   - Message example: `chore(openspec): start change <name>`
+   - Do not commit files that likely contain secrets (`.env`, credentials, etc.).
+
+   e. **Push and open PR**:
+   ```bash
+   git push -u origin HEAD
+   gh pr create --base main --head "<branch-name>" --title "<short title from proposal/tasks>" --body "$(cat <<'EOF'
+   ## Summary
+   OpenSpec change: `<name>`
+   - <bullet from proposal or tasks context>
+   - <bullet 2 if useful>
+
+   ## Test plan
+   - [ ] Complete tasks in `openspec/changes/<name>/tasks.md`
+
+   EOF
+   )"
+   ```
+
+   f. **Announce** branch name and PR URL. **Do not start step 7 until the PR exists.**
+
+   **On failure** (missing `gh`, auth error, push rejected): pause, report the error, and wait for guidance. Do not implement without an open PR.
+
+7. **Implement tasks (loop until done or blocked)**
 
    For each pending task:
    - Show which task is being worked on
@@ -79,7 +129,7 @@ Implement tasks from an OpenSpec change.
    - Error or blocker encountered → report and wait for guidance
    - User interrupts
 
-7. **On completion or pause, show status**
+8. **On completion or pause, show status**
 
    Display:
    - Tasks completed this session
@@ -91,6 +141,7 @@ Implement tasks from an OpenSpec change.
 
 ```
 ## Implementing: <change-name> (schema: <schema-name>)
+**Branch:** <branch-name> · **PR:** <pr-url>
 
 Working on task 3/7: <task description>
 [...implementation happening...]
@@ -139,6 +190,9 @@ What would you like to do?
 ```
 
 **Guardrails**
+- Always open (or reuse) a PR from `main` before the first code change in step 7
+- Never update git config; never force-push to `main`
+- Use `gh` for all GitHub PR operations
 - Keep going through tasks until done or blocked
 - Always read context files before starting (from the apply instructions output)
 - If task is ambiguous, pause and ask before implementing
