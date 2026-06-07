@@ -2,7 +2,7 @@
 
 ### Requirement: README do projeto
 
-O repositório MUST incluir um **README.md** descrevendo o propósito do app, rotinas A/B, uso de localStorage, requisitos de deploy no S3 e instruções básicas para rodar localmente.
+O repositório MUST incluir um **README.md** descrevendo o propósito do app, rotinas Sábado/Domingo (Série A/B), uso de localStorage, requisitos de deploy no S3 e instruções básicas para rodar localmente.
 
 #### Scenario: Novo contribuidor ou usuário
 
@@ -20,7 +20,7 @@ O repositório MUST incluir um arquivo de **release notes** (por exemplo `RELEAS
 
 ### Requirement: Atualizar release notes em mudanças futuras
 
-Cada entrega versionada significativa MUST adicionar uma entrada nas release notes descrevendo o que mudou.
+Cada entrega versionada significativa MUST adicionar uma entrada nas release notes descrevendo o que mudou, incluindo nesta entrega: botão Terminar treino, fluxo separado de Iniciar treino, rótulos Sábado/Domingo e bloqueio de orientação em retrato.
 
 #### Scenario: Correção ou feature posterior
 
