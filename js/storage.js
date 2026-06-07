@@ -9,6 +9,7 @@
   function defaultState() {
     return {
       activeSeries: 'A',
+      sessionPhase: 'active',
       seriesProgress: {
         A: { exerciseIndex: 0 },
         B: { exerciseIndex: 0 },

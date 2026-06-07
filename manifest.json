@@ -1,0 +1,7 @@
+{
+  "name": "Treino Academia",
+  "short_name": "Treino",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "./index.html"
+}

@@ -1,4 +1,4 @@
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Série A com lista fixa de exercícios
 
@@ -17,12 +17,3 @@ O sistema MUST exibir a rotina **Série B** (aba **Domingo** na interface) com o
 
 - **WHEN** o usuário escolhe a aba **Domingo** na interface
 - **THEN** a lista de exercícios da Série B é exibida na ordem definida
-
-### Requirement: Identificador estável por exercício
-
-Cada exercício MUST ter um identificador estável (slug) usado internamente para persistência, independente da série em que aparece.
-
-#### Scenario: Mesmo exercício em A e B
-
-- **WHEN** "Supino reto" aparece na Série A e na Série B
-- **THEN** o mesmo identificador de exercício é usado para armazenar histórico desse movimento

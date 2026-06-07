@@ -1,4 +1,4 @@
-## Requirements
+## ADDED Requirements
 
 ### Requirement: Botão Terminar treino
 
@@ -44,6 +44,8 @@ O sistema MUST persistir `sessionPhase` (`active` ou `terminated`) no localStora
 - **WHEN** o usuário recarrega a página após terminar o treino
 - **THEN** a sessão permanece na fase `terminated` com valores visíveis e controles desabilitados
 
+## MODIFIED Requirements
+
 ### Requirement: Botão Iniciar treino
 
 O sistema MUST exibir um botão **Iniciar treino** acessível na interface principal. O botão MUST estar **desabilitado** enquanto a sessão estiver na fase `active` e MUST estar **habilitado** somente quando a sessão estiver na fase `terminated`.
@@ -75,26 +77,10 @@ Ao pressionar **Iniciar treino** (com sessão na fase `terminated`), o sistema M
 - **AND** `suggestions` incorporam peso e repetições das séries totalmente preenchidas na sessão que está sendo encerrada
 - **AND** slots não preenchidos ou com apenas peso ou apenas repetições mantêm a referência já existente em `suggestions`
 
-### Requirement: Sugerir valores do treino anterior
+## REMOVED Requirements
 
-Após iniciar um novo treino, o sistema MUST exibir os pesos e repetições do treino arquivado imediatamente anterior como referência ao lado dos labels dos campos (quando existirem), e MUST iniciar a sessão atual com campos de entrada vazios para peso e repetições.
+### Requirement: Confirmar antes de iniciar novo treino
 
-#### Scenario: Referência após segundo treino
+**Reason**: A confirmação de encerramento do treino foi movida para o botão **Terminar treino**; **Iniciar treino** apenas inicia nova sessão após o término já confirmado.
 
-- **WHEN** o usuário inicia um novo treino e havia dados no treino anterior arquivado
-- **THEN** os labels mostram os valores de referência do treino anterior (ex.: "Peso (kg) 33", "Reps 9")
-- **AND** os inputs de peso e repetições permanecem vazios até o usuário digitar
-
-#### Scenario: Registrar apenas entrada nova
-
-- **WHEN** o usuário preenche peso ou repetições após iniciar o treino com referência nos labels
-- **THEN** apenas os valores digitados são persistidos na sessão atual
-
-### Requirement: Sessão atual editável
-
-Durante uma sessão em andamento, alterações nos campos MUST atualizar o armazenamento local sem exigir "Iniciar treino".
-
-#### Scenario: Auto-persistência na edição
-
-- **WHEN** o usuário altera peso ou repetições em qualquer série
-- **THEN** o localStorage é atualizado para refletir a sessão atual
+**Migration**: Usuários que antes confirmavam em "Iniciar treino" agora confirmam em "Terminar treino" antes de congelar a sessão.

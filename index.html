@@ -3,19 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="screen-orientation" content="portrait">
   <meta name="description" content="App de treino de academia — séries A e B">
   <title>Treino Academia</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header class="app-header">
     <h1>Treino</h1>
-    <button type="button" id="btn-start-workout" class="btn btn-primary">Iniciar treino</button>
+    <div class="header-actions">
+      <button type="button" id="btn-terminate-workout" class="btn btn-secondary">Terminar treino</button>
+      <button type="button" id="btn-start-workout" class="btn btn-primary">Iniciar treino</button>
+    </div>
   </header>
 
-  <nav class="series-tabs" role="tablist" aria-label="Série de treino">
-    <button type="button" class="series-tab active" data-series="A" role="tab" aria-selected="true">Série A</button>
-    <button type="button" class="series-tab" data-series="B" role="tab" aria-selected="false">Série B</button>
+  <nav class="series-tabs" role="tablist" aria-label="Dia de treino: Sábado ou Domingo">
+    <button type="button" class="series-tab active" data-series="A" role="tab" aria-selected="true">Sábado</button>
+    <button type="button" class="series-tab" data-series="B" role="tab" aria-selected="false">Domingo</button>
   </nav>
 
   <div class="progress-nav">

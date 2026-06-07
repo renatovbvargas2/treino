@@ -26,6 +26,11 @@
     return sets;
   }
 
+  function terminateWorkout(state) {
+    state.sessionPhase = 'terminated';
+    return state;
+  }
+
   function startWorkout(state, exerciseIds) {
     const session = state.currentSession;
 
@@ -53,11 +58,13 @@
       sets: buildEmptySetsForExercises(exerciseIds),
     };
     state.seriesProgress[series].exerciseIndex = 0;
+    state.sessionPhase = 'active';
 
     return state;
   }
 
   global.TreinoSession = {
+    terminateWorkout,
     startWorkout,
     ensureCurrentSession,
   };

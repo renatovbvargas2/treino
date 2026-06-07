@@ -27,6 +27,22 @@ O app MUST funcionar nos navegadores mobile e desktop modernos (Chrome, Safari, 
 - **WHEN** o usuário abre o link do S3 no navegador do celular
 - **THEN** pode registrar treino e persistir dados localmente
 
+### Requirement: Orientação fixa em retrato
+
+O aplicativo MUST tentar manter a orientação da tela em **retrato** no mobile para evitar o controle indesejado de rotação ("girar") do navegador durante o uso do treino.
+
+#### Scenario: Carregamento no celular
+
+- **WHEN** o usuário abre o aplicativo no navegador mobile
+- **THEN** o app declara preferência por orientação retrato (meta tag e/ou manifest)
+- **AND** tenta aplicar lock de orientação em retrato quando a API do navegador permitir, tratando falhas síncronas e rejeições assíncronas da Promise sem impedir o uso
+
+#### Scenario: Lock indisponível
+
+- **WHEN** o navegador não suporta ou rejeita o lock de orientação
+- **THEN** o aplicativo continua funcionando normalmente em retrato
+- **AND** nenhum erro visível é exibido ao usuário (incluindo rejeição da Promise de lock)
+
 ### Requirement: Chrome de navegação fixo no topo
 
 As abas **Série A** / **Série B** e a barra de progresso do exercício (Anterior, rótulo, Próximo) MUST permanecer fixas no topo da viewport durante o scroll da lista de exercícios, empilhadas abaixo do cabeçalho principal sem sobrepor o conteúdo rolável.
