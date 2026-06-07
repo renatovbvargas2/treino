@@ -3,11 +3,9 @@
   const { loadState, saveState, ensureCurrentSession } = window.TreinoStorage;
   const { startWorkout, terminateWorkout } = window.TreinoSession;
 
-  try {
-    screen.orientation?.lock?.('portrait');
-  } catch {
-    /* lock indisponível — continua em retrato */
-  }
+  screen.orientation?.lock?.('portrait')?.catch(() => {
+    /* lock indisponível ou rejeitado — continua em retrato */
+  });
 
   let state = loadState();
   ensureCurrentSession(state);

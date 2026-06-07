@@ -16,6 +16,10 @@
 - Rótulo de progresso exibe Sábado/Domingo em vez de Série A/B
 - Controles desabilitados na fase encerrada (inputs, abas, navegação)
 
+### Corrigido
+
+- Rejeição assíncrona de `screen.orientation.lock` tratada silenciosamente (evita unhandled promise rejection no console)
+
 ### Issue
 
 Correções da [#5](https://github.com/renatovbvargas2/treino/issues/5): botão girar no celular, fluxo de término de treino e rótulos por dia da semana.

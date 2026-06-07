@@ -35,13 +35,13 @@ O aplicativo MUST tentar manter a orientação da tela em **retrato** no mobile 
 
 - **WHEN** o usuário abre o aplicativo no navegador mobile
 - **THEN** o app declara preferência por orientação retrato (meta tag e/ou manifest)
-- **AND** tenta aplicar lock de orientação em retrato quando a API do navegador permitir, sem impedir o uso se o lock falhar
+- **AND** tenta aplicar lock de orientação em retrato quando a API do navegador permitir, tratando falhas síncronas e rejeições assíncronas da Promise sem impedir o uso
 
 #### Scenario: Lock indisponível
 
 - **WHEN** o navegador não suporta ou rejeita o lock de orientação
 - **THEN** o aplicativo continua funcionando normalmente em retrato
-- **AND** nenhum erro visível é exibido ao usuário
+- **AND** nenhum erro visível é exibido ao usuário (incluindo rejeição da Promise de lock)
 
 ### Requirement: Chrome de navegação fixo no topo
 
