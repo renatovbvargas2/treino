@@ -5,6 +5,7 @@
 ### Corrigido
 
 - Abas **Sábado** e **Domingo** permanecem habilitadas após **Terminar treino**, permitindo consultar o treino concluído de cada dia em modo somente leitura
+- Referências do treino anterior nos labels preservadas ao **Iniciar treino** mesmo após alternar abas na fase encerrada
 
 ### Issue
 

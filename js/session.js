@@ -1,21 +1,16 @@
 (function (global) {
   const {
     emptySets,
-    sessionHasData,
     sessionIsComplete,
     mergeCompleteSetsIntoSuggestions,
     ensureCurrentSession,
   } = global.TreinoStorage;
 
-  function cloneSets(sets) {
-    const cloned = {};
-    for (const [id, arr] of Object.entries(sets || {})) {
-      cloned[id] = arr.map((s) => ({
-        weight: s.weight != null ? s.weight : null,
-        reps: s.reps != null ? s.reps : null,
-      }));
-    }
-    return cloned;
+  function cloneSetEntry(set) {
+    return {
+      weight: set?.weight != null ? set.weight : null,
+      reps: set?.reps != null ? set.reps : null,
+    };
   }
 
   function buildEmptySetsForExercises(exerciseIds) {
@@ -26,6 +21,24 @@
     return sets;
   }
 
+  function copyExerciseSetsToSuggestions(state, session, exerciseIds) {
+    if (!state.suggestions) state.suggestions = {};
+    for (const id of exerciseIds) {
+      if (session.sets?.[id]) {
+        state.suggestions[id] = session.sets[id].map(cloneSetEntry);
+      }
+    }
+  }
+
+  function sessionHasDataForExercises(session, exerciseIds) {
+    if (!session?.sets) return false;
+    return exerciseIds.some((id) => {
+      const sets = session.sets[id];
+      if (!sets) return false;
+      return sets.some((s) => s.weight != null || s.reps != null);
+    });
+  }
+
   function terminateWorkout(state) {
     state.sessionPhase = 'terminated';
     return state;
@@ -33,20 +46,24 @@
 
   function startWorkout(state, exerciseIds) {
     const session = state.currentSession;
+    const { getExercises } = global.TreinoProgram;
 
     if (session) {
-      if (sessionIsComplete(session, exerciseIds)) {
-        state.lastCompletedSession = {
-          ...session,
-          completedAt: new Date().toISOString(),
-        };
-        state.suggestions = cloneSets(session.sets);
-      } else if (sessionHasData(session)) {
-        state.suggestions = mergeCompleteSetsIntoSuggestions(
-          state.suggestions,
-          session.sets,
-          exerciseIds
-        );
+      for (const seriesKey of ['A', 'B']) {
+        const seriesIds = getExercises(seriesKey).map((e) => e.id);
+        if (sessionIsComplete(session, seriesIds)) {
+          state.lastCompletedSession = {
+            ...session,
+            completedAt: new Date().toISOString(),
+          };
+          copyExerciseSetsToSuggestions(state, session, seriesIds);
+        } else if (sessionHasDataForExercises(session, seriesIds)) {
+          state.suggestions = mergeCompleteSetsIntoSuggestions(
+            state.suggestions,
+            session.sets,
+            seriesIds
+          );
+        }
       }
     }
 
