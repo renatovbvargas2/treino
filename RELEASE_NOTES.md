@@ -1,5 +1,15 @@
 # Release Notes
 
+## v1.1.1 — 2026-06-21
+
+### Corrigido
+
+- Abas **Sábado** e **Domingo** permanecem habilitadas após **Terminar treino**, permitindo consultar o treino concluído de cada dia em modo somente leitura
+
+### Issue
+
+Correção da [#8](https://github.com/renatovbvargas2/treino/issues/8): abas de fim de semana desabilitadas ao finalizar treino.
+
 ## v1.1.0 — 2026-06-07
 
 ### Adicionado
