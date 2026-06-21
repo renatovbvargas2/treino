@@ -34,10 +34,6 @@
     if (btnPrev) btnPrev.disabled = isTerminated;
     if (btnNext) btnNext.disabled = isTerminated;
 
-    document.querySelectorAll('.series-tab').forEach((tab) => {
-      tab.disabled = isTerminated;
-    });
-
     document.querySelectorAll('#exercise-list input[data-exercise-id]').forEach((input) => {
       input.disabled = isTerminated;
       input.readOnly = isTerminated;

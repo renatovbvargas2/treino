@@ -15,7 +15,6 @@
 
   document.querySelectorAll('.series-tab').forEach((tab) => {
     tab.addEventListener('click', () => {
-      if (window.TreinoUI.getState().sessionPhase === 'terminated') return;
       window.TreinoUI.switchSeries(tab.dataset.series);
       state = window.TreinoUI.getState();
     });
