@@ -4,7 +4,7 @@ Aplicação estática (HTML, CSS e JavaScript) para registrar treinos de academi
 
 ## Características
 
-- **Sábado** (Série A) e **Domingo** (Série B) com 10 exercícios cada (listas fixas)
+- **Sábado** (Série A) com 10 exercícios e **Domingo** (Série B) com 11 exercícios (listas fixas)
 - **3 séries** por exercício, com campos de **peso (kg)** e **repetições**
 - Persistência automática no navegador
 - Lembra a última série (A/B), o exercício em foco e os valores digitados
@@ -27,7 +27,7 @@ Supino reto, Voador frente, Voador costas, Remada, Barra Graviton, Paralela Grav
 
 ### Domingo (Série B)
 
-Supino reto, Voador costas, Remada, Barra Graviton, Paralela Graviton, Elevação de ombro máquina, Bíceps Scott, Flexora, Abdutora, Adutora.
+Supino reto, Voador frente, Voador costas, Remada, Barra Graviton, Paralela Graviton, Elevação de ombro máquina, Bíceps Scott, Flexora, Abdutora, Adutora.
 
 ## Estrutura do projeto
 

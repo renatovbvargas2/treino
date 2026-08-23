@@ -30,6 +30,7 @@
 
   const SERIES_B_IDS = [
     'supino-reto',
+    'voador-frente',
     'voador-costas',
     'remada',
     'barra-graviton',
