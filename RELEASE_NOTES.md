@@ -1,5 +1,15 @@
 # Release Notes
 
+## v1.2.0 — 2026-08-23
+
+### Adicionado
+
+- **Voador frente** adicionado à Série B (Domingo) como segundo exercício, resultando em 11 exercícios no treino de domingo
+
+### Issue
+
+Feature da [#10](https://github.com/renatovbvargas2/treino/issues/10): adicionar Voador frente ao treino de Domingo.
+
 ## v1.1.1 — 2026-06-21
 
 ### Corrigido

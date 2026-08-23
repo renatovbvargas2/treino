@@ -1,8 +1,11 @@
 ---
-name: /opsx-apply
-id: opsx-apply
-category: Workflow
-description: Implement tasks from an OpenSpec change (Experimental)
+name: openspec-apply
+description: Implement tasks from an OpenSpec change. Use when the user wants to implement a change that has already been proposed and designed.
+license: MIT
+compatibility: Requires openspec CLI and gh CLI for GitHub PR operations.
+metadata:
+  author: openspec
+  version: "1.0"
 ---
 
 Implement tasks from an OpenSpec change.
