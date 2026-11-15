@@ -1,3 +1,7 @@
+## Purpose
+
+Defines the workout session lifecycle, including terminating, starting, archiving, and suggestions.
+
 ## Requirements
 
 ### Requirement: Botão Terminar treino
@@ -67,7 +71,7 @@ O sistema MUST exibir um botão **Iniciar treino** acessível na interface princ
 
 ### Requirement: Arquivar sessão anterior ao iniciar
 
-Ao pressionar **Iniciar treino** (com sessão na fase `terminated`), o sistema MUST salvar a sessão encerrada como base integral de sugestões (`lastCompletedSession` e `suggestions`) **somente** quando essa sessão estiver **completa** (todos os exercícios da série ativa com as três séries tendo peso e repetições preenchidos). Se a sessão estiver incompleta mas tiver dados, o sistema MUST mesclar nas `suggestions` apenas as séries com peso e repetições preenchidos, MUST preservar referências anteriores nos demais slots e MUST **não** atualizar `lastCompletedSession`. Em todos os casos, a nova sessão MUST iniciar com campos de entrada vazios e a fase MUST voltar para `active`.
+Ao pressionar **Iniciar treino** (com sessão na fase `terminated`), o sistema MUST salvar a sessão encerrada como base integral de sugestões (`lastCompletedSession` e `suggestions`) **somente** quando essa sessão estiver **completa** (todos os exercícios da série ativa com as quatro séries tendo peso e repetições preenchidos). Se a sessão estiver incompleta mas tiver dados, o sistema MUST mesclar nas `suggestions` apenas as séries com peso e repetições preenchidos, MUST preservar referências anteriores nos demais slots e MUST **não** atualizar `lastCompletedSession`. Em todos os casos, a nova sessão MUST iniciar com campos de entrada vazios e a fase MUST voltar para `active`.
 
 #### Scenario: Iniciar novo treino após sessão preenchida
 

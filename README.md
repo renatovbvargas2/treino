@@ -5,7 +5,7 @@ Aplicação estática (HTML, CSS e JavaScript) para registrar treinos de academi
 ## Características
 
 - **Sábado** (Série A) com 10 exercícios e **Domingo** (Série B) com 11 exercícios (listas fixas)
-- **3 séries** por exercício, com campos de **peso (kg)** e **repetições**
+- **4 séries** por exercício, com campos de **peso (kg)** e **repetições**
 - Persistência automática no navegador
 - Lembra a última série (A/B), o exercício em foco e os valores digitados
 - Botão **Terminar treino**: confirma, congela a sessão e mantém os valores visíveis nos campos

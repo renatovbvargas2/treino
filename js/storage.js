@@ -1,6 +1,6 @@
 (function (global) {
   const STORAGE_KEY = 'treino-app-v1';
-  const SET_COUNT = 3;
+  const SET_COUNT = global.TreinoProgram.SET_COUNT;
 
   function emptySets() {
     return Array.from({ length: SET_COUNT }, () => ({ weight: null, reps: null }));
@@ -20,12 +20,41 @@
     };
   }
 
+  function padSetArray(arr) {
+    if (!Array.isArray(arr)) return arr;
+    while (arr.length < SET_COUNT) {
+      arr.push({ weight: null, reps: null });
+    }
+    return arr;
+  }
+
+  function normalizeState(state) {
+    if (!state || typeof state !== 'object') return state;
+    if (state.currentSession && state.currentSession.sets) {
+      for (const id of Object.keys(state.currentSession.sets)) {
+        padSetArray(state.currentSession.sets[id]);
+      }
+    }
+    if (state.suggestions && typeof state.suggestions === 'object') {
+      for (const id of Object.keys(state.suggestions)) {
+        padSetArray(state.suggestions[id]);
+      }
+    }
+    if (state.lastCompletedSession && state.lastCompletedSession.sets) {
+      for (const id of Object.keys(state.lastCompletedSession.sets)) {
+        padSetArray(state.lastCompletedSession.sets[id]);
+      }
+    }
+    return state;
+  }
+
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return defaultState();
       const parsed = JSON.parse(raw);
-      return { ...defaultState(), ...parsed };
+      const state = { ...defaultState(), ...parsed };
+      return normalizeState(state);
     } catch {
       return defaultState();
     }
@@ -123,6 +152,7 @@
     sessionHasData,
     sessionIsComplete,
     mergeCompleteSetsIntoSuggestions,
+    normalizeState,
     debounce,
   };
 })(window);

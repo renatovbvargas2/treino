@@ -49,6 +49,6 @@
 
   global.TreinoProgram = {
     getExercises,
-    SET_COUNT: 3,
+    SET_COUNT: 4,
   };
 })(window);

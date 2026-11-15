@@ -1,13 +1,17 @@
+## Purpose
+
+Defines how many sets each exercise has and how weight and reps are recorded and referenced.
+
 ## Requirements
 
-### Requirement: Três séries por exercício
+### Requirement: Quatro séries por exercício
 
-Para cada exercício exibido, o sistema MUST oferecer exatamente **3 séries** de registro.
+Para cada exercício exibido, o sistema MUST oferecer exatamente **4 séries** de registro.
 
 #### Scenario: Exibir campos de série
 
 - **WHEN** um exercício é exibido na tela de treino
-- **THEN** o usuário vê três blocos ou linhas de série (série 1, 2 e 3)
+- **THEN** o usuário vê quatro blocos ou linhas de série (série 1, 2, 3 e 4)
 
 ### Requirement: Peso e repetições por série
 
