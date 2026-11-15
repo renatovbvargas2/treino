@@ -1,0 +1,9 @@
+{
+  "name": "treino-academia",
+  "version": "1.2.1",
+  "private": true,
+  "description": "App estático de treino de academia (HTML, CSS, JavaScript) com persistência em localStorage.",
+  "scripts": {
+    "test": "node tests/run.js"
+  }
+}

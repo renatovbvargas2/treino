@@ -28,6 +28,7 @@
     return arr;
   }
 
+  /** Migrate persisted state to the current SET_COUNT by padding sets arrays. Idempotent. */
   function normalizeState(state) {
     if (!state || typeof state !== 'object') return state;
     if (state.currentSession && state.currentSession.sets) {
@@ -48,6 +49,7 @@
     return state;
   }
 
+  /** Load (and migrate) state from localStorage. */
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -97,6 +99,7 @@
     return w != null && !Number.isNaN(w) && r != null && !Number.isNaN(r);
   }
 
+  /** True only if every listed exercise has SET_COUNT complete sets (weight + reps). */
   function sessionIsComplete(session, exerciseIds) {
     if (!session?.sets || !exerciseIds?.length) return false;
     return exerciseIds.every((id) => {

@@ -39,11 +39,13 @@
     });
   }
 
+  /** Freeze the session (phase -> terminated); values stay visible. */
   function terminateWorkout(state) {
     state.sessionPhase = 'terminated';
     return state;
   }
 
+  /** Archive/merge the terminated session, then start a new empty session (phase -> active). */
   function startWorkout(state, exerciseIds) {
     const session = state.currentSession;
     const { getExercises } = global.TreinoProgram;
