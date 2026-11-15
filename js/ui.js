@@ -5,6 +5,7 @@
     getSetsForExercise,
     debounce,
     ensureCurrentSession,
+    evaluateSetTarget,
   } = global.TreinoStorage;
 
   let state = null;
@@ -90,6 +91,27 @@
           : parseInt(value, 10);
     sets[setIndex][field] = parsed == null || Number.isNaN(parsed) ? null : parsed;
     persistDebounced();
+    updateExerciseStatus(exerciseId);
+  }
+
+  function updateExerciseStatus(exerciseId) {
+    const card = document.querySelector(`.exercise-card[data-exercise-id="${exerciseId}"]`);
+    if (!card) return;
+    const sets = getSetsForExercise(state, exerciseId);
+    const status = evaluateSetTarget(sets);
+    card.classList.remove('target-green', 'target-red');
+    if (status === 'green') card.classList.add('target-green');
+    else if (status === 'red') card.classList.add('target-red');
+    const label = card.querySelector('.target-status');
+    if (label) {
+      label.dataset.status = status;
+      label.textContent =
+        status === 'green'
+          ? 'Meta atingida — pode aumentar o peso'
+          : status === 'red'
+            ? 'Abaixo da meta — considere reduzir o peso'
+            : '';
+    }
   }
 
   function getSuggestionSet(exerciseId, setIndex) {
@@ -163,6 +185,9 @@
       .map((ex, index) => {
         const sets = getSetsForExercise(state, ex.id);
         const isActive = index === activeIndex;
+        const status = evaluateSetTarget(sets);
+        const statusClass =
+          status === 'green' ? ' target-green' : status === 'red' ? ' target-red' : '';
         const setsHtml = sets
           .map((setData, si) =>
             renderSetRow(ex.id, si, setData, hasSetReference(ex.id, si))
@@ -172,11 +197,11 @@
         return `
           <article
             id="exercise-${index}"
-            class="exercise-card${isActive ? ' is-active' : ''}"
+            class="exercise-card${isActive ? ' is-active' : ''}${statusClass}"
             data-exercise-id="${ex.id}"
             data-exercise-index="${index}"
           >
-            <h2 class="exercise-name">${ex.name}</h2>
+            <h2 class="exercise-name">${ex.name} <span class="target-status" data-status="${status}">${status === 'green' ? 'Meta atingida — pode aumentar o peso' : status === 'red' ? 'Abaixo da meta — considere reduzir o peso' : ''}</span></h2>
             <div class="sets-grid">${setsHtml}</div>
           </article>
         `;

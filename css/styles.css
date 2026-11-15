@@ -8,6 +8,10 @@
   --border: #e2e5eb;
   --active-ring: #93c5fd;
   --suggested-bg: #eff6ff;
+  --target-green-bg: #ecfdf5;
+  --target-green-border: #34d399;
+  --target-red-bg: #fef2f2;
+  --target-red-border: #f87171;
   --radius: 12px;
   --touch-min: 44px;
   --chrome-header: 4.5rem;
@@ -173,6 +177,30 @@ body.session-terminated .input-touch[readonly] {
 .exercise-card.is-active {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--active-ring);
+}
+
+.exercise-card.target-green {
+  border-color: var(--target-green-border);
+  background: var(--target-green-bg);
+}
+
+.exercise-card.target-red {
+  border-color: var(--target-red-border);
+  background: var(--target-red-bg);
+}
+
+.target-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.target-status[data-status='green'] {
+  color: #047857;
+}
+
+.target-status[data-status='red'] {
+  color: #b91c1c;
 }
 
 .exercise-name {

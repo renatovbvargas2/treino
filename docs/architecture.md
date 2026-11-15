@@ -37,6 +37,13 @@ graph TD
 - A session is "complete" only when every exercise in the active series has all `SET_COUNT` sets with weight and reps.
 - `localStorage` key stays `treino-app-v1`; schema changes are handled by padding/migration, not key bumps.
 
+## Target feedback (set goal)
+
+- Per-exercise status is derived from the current session's sets via `evaluateSetTarget()` (`storage.js`): `'green' | 'red' | 'neutral'`.
+- Green: first 3 sets complete with non-decreasing weights and ≥12 reps each, plus a 4th set with weight ≥ 3rd and ≥12 reps.
+- Red: any of the first 3 completed sets has <12 reps or a weight drop (based only on the first 3 series).
+- Status is recomputed on render and toggled on the card during input without re-rendering (to keep input focus).
+
 ## Gotchas
 
 - `switchSeries()` (in `ui.js`) calls `ensureCurrentSession()` even in the `terminated` phase, and `renderExerciseList()` calls `getSetsForExercise()`, which can create empty sets for a series the user only viewed. Avoid relying on "absence of sets" as a signal.

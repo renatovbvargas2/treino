@@ -118,5 +118,70 @@ test('startWorkout partial does not update lastCompletedSession', () => {
   eq(after.suggestions[ids[0]][0], { weight: 10, reps: 5 });
 });
 
+test('evaluateSetTarget: neutral with no completed sets', () => {
+  eq(S.evaluateSetTarget(S.emptySets()), 'neutral');
+});
+
+test('evaluateSetTarget: red when a set has <12 reps', () => {
+  const sets = [
+    { weight: 50, reps: 10 },
+    { weight: 50, reps: 12 },
+    { weight: 50, reps: 12 },
+  ];
+  // pad to 4
+  while (sets.length < 4) sets.push({ weight: null, reps: null });
+  eq(S.evaluateSetTarget(sets), 'red');
+});
+
+test('evaluateSetTarget: red when weight decreases', () => {
+  const sets = [
+    { weight: 50, reps: 12 },
+    { weight: 45, reps: 12 },
+    { weight: 50, reps: 12 },
+  ];
+  while (sets.length < 4) sets.push({ weight: null, reps: null });
+  eq(S.evaluateSetTarget(sets), 'red');
+});
+
+test('evaluateSetTarget: neutral with 3 qualifying but no 4th', () => {
+  const sets = [
+    { weight: 50, reps: 12 },
+    { weight: 50, reps: 12 },
+    { weight: 50, reps: 12 },
+    { weight: null, reps: null },
+  ];
+  eq(S.evaluateSetTarget(sets), 'neutral');
+});
+
+test('evaluateSetTarget: green when 4th qualifies', () => {
+  const sets = [
+    { weight: 50, reps: 12 },
+    { weight: 50, reps: 12 },
+    { weight: 52, reps: 12 },
+    { weight: 52, reps: 12 },
+  ];
+  eq(S.evaluateSetTarget(sets), 'green');
+});
+
+test('evaluateSetTarget: neutral when 4th exists but does not qualify', () => {
+  const sets = [
+    { weight: 50, reps: 12 },
+    { weight: 50, reps: 12 },
+    { weight: 50, reps: 12 },
+    { weight: 40, reps: 12 },
+  ];
+  eq(S.evaluateSetTarget(sets), 'neutral');
+});
+
+test('evaluateSetTarget: neutral with partial non-failing data', () => {
+  const sets = [
+    { weight: 50, reps: 12 },
+    { weight: null, reps: null },
+    { weight: null, reps: null },
+    { weight: null, reps: null },
+  ];
+  eq(S.evaluateSetTarget(sets), 'neutral');
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);

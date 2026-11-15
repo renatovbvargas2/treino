@@ -86,6 +86,44 @@
     return session.sets[exerciseId];
   }
 
+  function evaluateSetTarget(sets) {
+    if (!Array.isArray(sets) || sets.length === 0) return 'neutral';
+    const first3 = sets.slice(0, 3);
+
+    // Red: any completed set among the first 3 with <12 reps or a weight drop.
+    for (const s of first3) {
+      if (isSetComplete(s) && s.reps < 12) return 'red';
+    }
+    let prevWeight = null;
+    let seen = false;
+    for (const s of first3) {
+      if (!isSetComplete(s)) continue;
+      if (seen && s.weight < prevWeight) return 'red';
+      prevWeight = s.weight;
+      seen = true;
+    }
+
+    const allFirst3Complete =
+      first3.length === 3 && first3.every(isSetComplete);
+    const first3Qualify =
+      allFirst3Complete &&
+      first3.every((s) => s.reps >= 12) &&
+      first3[1].weight >= first3[0].weight &&
+      first3[2].weight >= first3[1].weight;
+
+    if (!first3Qualify) return 'neutral';
+
+    const fourth = sets[3];
+    if (
+      isSetComplete(fourth) &&
+      fourth.reps >= 12 &&
+      fourth.weight >= first3[2].weight
+    ) {
+      return 'green';
+    }
+    return 'neutral';
+  }
+
   function sessionHasData(session) {
     if (!session || !session.sets) return false;
     return Object.values(session.sets).some((sets) =>
@@ -155,6 +193,7 @@
     sessionHasData,
     sessionIsComplete,
     mergeCompleteSetsIntoSuggestions,
+    evaluateSetTarget,
     normalizeState,
     debounce,
   };
